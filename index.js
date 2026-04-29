@@ -28,6 +28,7 @@ app.use("/general", generalRoutes);
 app.use("/management", managementRoutes);
 app.use("/sales", salesRoutes);
 
+
 // MONGOOSE SETUP
 const PORT = process.env.PORT || 9000;
 mongoose.connect(process.env.MONGO_URL)
@@ -36,4 +37,5 @@ mongoose.connect(process.env.MONGO_URL)
     console.log("MongoDB connected ✅");
   })
   .catch((error) => console.log(`${error} did not connect`));
+  
   
