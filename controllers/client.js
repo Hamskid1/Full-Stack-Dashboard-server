@@ -122,47 +122,25 @@ export const getTransactions = async (req, res) => {
 
 export const getGeography = async (req, res) => {
   try {
-    const users = await User.find().select("country");
+    const users = await User.find();
 
-    const mappedLocations = users.reduce(
-      (acc, user) => {
-        const country = user.country;
+    const mappedLocations = users.reduce((acc, { country }) => {
+      const countryISO3 = getCountryIso3(country);
+      if (!acc[countryISO3]) {
+        acc[countryISO3] = 0;
+      }
+      acc[countryISO3]++;
+      return acc;
+    }, {});
 
-        if (!country) return acc;
-
-        let countryISO3;
-
-        try {
-          countryISO3 = getCountryISO3(
-            country.toUpperCase()
-          );
-        } catch (err) {
-          return acc;
-        }
-
-        if (!countryISO3) return acc;
-
-        acc[countryISO3] =
-          (acc[countryISO3] || 0) + 1;
-
-        return acc;
-      },
-      {}
+    const formattedLocations = Object.entries(mappedLocations).map(
+      ([country, count]) => {
+        return { id: country, value: count };
+      }
     );
 
-    const formattedLocations =
-      Object.entries(mappedLocations).map(
-        ([country, count]) => ({
-          id: country,
-          value: count,
-        })
-      );
-
     res.status(200).json(formattedLocations);
-
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+    res.status(404).json({ message: error.message });
   }
 };
