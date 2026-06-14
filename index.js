@@ -53,7 +53,7 @@ mongoose.connect(process.env.MONGO_URL)
     console.log("MongoDB connected ✅");
 
     // Only add data one time
-      // OverallStat.insertMany(dataOverallStat);
+    // OverallStat.insertMany(dataOverallStat);
     // Product.insertMany(dataProduct);
     // ProductStat.insertMany(dataProductStat);
     // User.insertMany(dataUser);
