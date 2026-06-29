@@ -48,6 +48,7 @@ export const getDashboardStats = async (req, res) => {
             salesByCategory,
             thisMonthStats,
             todayStats,
+            transactions,
         });
 
     } catch (error) {
